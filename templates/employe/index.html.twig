@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Liste des employés {% endblock %}
+
+{% block body %}
+
+    <h1>Liste des employés</h1>
+
+    <p>Il y a {{employes | length}} employés dans la base de données :</p>
+    <ul>
+        {% for employe in employes %}
+            <li> <a href="{{ path('show_employe', {'id': employe.id}) }}"> {{ employe }} </a> {{ ', recruté par ' ~ employe.entreprise ~ ' le ' ~ employe.dateEmbauche | date('d-m-Y') }} </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
