@@ -4,12 +4,29 @@
 
 {% block body %}
 
-    <h1>Liste des employés</h1>
+    <h1>Liste des employés <sup><button type="button" class="btn btn-dark btn-sm">{{employes | length}}</button></sup></h1>
 
-    <p>Il y a {{employes | length}} employés dans la base de données :</p>
-    <ul>
+    <p><a href="{{ path('add_employe') }}"><button type="button" class="btn btn-success">Ajouter un employé</button></a></p>
+    
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="text-uppercase">#</th>
+                <th class="text-uppercase">Employé</th>
+                <th class="text-uppercase">Entreprise</th>
+                <th class="text-uppercase">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
         {% for employe in employes %}
-            <li> <a href="{{ path('show_employe', {'id': employe.id}) }}"> {{ employe }} </a> {{ ', recruté par ' ~ employe.entreprise ~ ' le ' ~ employe.dateEmbauche | date('d-m-Y') }} </li>
+            <tr>
+                <td> {{employe.id }} </td>
+                <td> <a href="{{ path('show_employe', {'id': employe.id}) }}"> {{ employe }} </a> </td>     
+                <td class="text-uppercase"> <a href="{{ path('show_entreprise', {'id': employe.entreprise.id}) }}"> {{ employe.entreprise }} </a> </td>
+                <td> <a href="{{ path('update_employe', {'id': employe.id}) }}"> <button type="button" class="btn btn-warning"><i class="fa-solid fa-pen-to-square"></i></button></a> <a href="{{ path('delete_employe', {'id': employe.id}) }}"><button type="button" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button></a> </td>                
+            </tr>    
+        
         {% endfor %}
-    </ul>
+        </tbody>
+    </table>
 {% endblock %}

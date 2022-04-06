@@ -4,13 +4,26 @@
 
 {% block body %}
 
-    <h1> {{ employe }} </h1>
+    <h1> <i class="fa-solid fa-user"></i> {{ employe }} <a href="{{ path('update_employe', {'id': employe.id}) }}"> <button type="button" class="btn btn-warning"><i class="fa-solid fa-pen-to-square"></i></button></a> <a href="{{ path('delete_employe', {'id': employe.id}) }}"><button type="button" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button></a> </h1>
 
     <ul>
-        <li> Nom : {{ employe.nom }} </li>
-        <li> Prénom : {{ employe.prenom }} </li>
-        <li> Entreprise : {{ employe.entreprise }} </li>
-        <li> Date d'embauche': {{ employe.dateEmbauche | date('d-m-Y') }} </li>
+        <li> Entreprise : <a href="{{ path('show_entreprise', {'id': employe.entreprise.id}) }}"> {{ employe.entreprise }} </a> </li>
+        <li> Date d'embauche : {{ employe.dateEmbauche | date('d/m/Y') }} ({{ employe.anciennete }}) </li>
+        <li> Adresse : {{employe.adresseComplete}} </li>
+        <li> Date de naissance : {{ employe.dateNaissance | date('d/m/Y') }} ({{ employe.age }}) </li>
     </ul>
+
+    <table class="table table-striped">
+        <thead>
+            <th>Collègues</th>
+        </thead>
+        <tbody>
+            {% for collegue in employe.collegues %}
+            <tr>
+                <td> <a href="{{ path('show_employe', {'id': collegue.id}) }}"> {{ collegue }} </a> </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
 {% endblock %}

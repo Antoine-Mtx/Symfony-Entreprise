@@ -114,7 +114,7 @@ class Entreprise
 
     public function getVille(): ?string
     {
-        return $this->ville;
+        return strtoupper($this->ville);
     }
 
     public function setVille(?string $ville): self
@@ -168,11 +168,11 @@ class Entreprise
 
     public function __toString()
     {
-        return $this->raisonSociale;
+        return strtoupper($this->raisonSociale);
     }
 
     public function getAdresseComplete()
     {
-        return $this->adresse." ".$this->cp." ".$this->ville;
+        return $this->adresse." - ".strtoupper($this->cp)." ".strtoupper($this->ville);
     }
 }

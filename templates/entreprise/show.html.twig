@@ -4,23 +4,29 @@
 
 {% block body %}
 
-    <h1> {{ entreprise }} </h1>
+    <h1> <i class="fa-solid fa-building"></i> {{ entreprise }} <a href="{{ path('update_entreprise', {'id': entreprise.id}) }}"><button type="button" class="btn btn-warning"><i class="fa-solid fa-pen-to-square"></i></button></a> <a href="{{ path('delete_entreprise', {'id': entreprise.id}) }}"><button type="button" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button></a> </h1>
 
     <ul>
-        <li> Siret : {{ entreprise.siret }} </li>
+        <li> <span class="font-weight-bold"> Siret : </span>{{ entreprise.siret }} </li>
         <li> Adresse : {{ entreprise.adresseComplete }} </li>
-        <li> Date de création : {{ entreprise.dateCreation | date('d-m-Y') }} </li>
-        <li> Employés ({{ entreprise.employes | length }}):
-            {% if entreprise.employes | length > 0 %}
-            <ul>
-                {% for employe in entreprise.employes %}
-                    <li> {{employe }} </li>
-                {% endfor %}
-            </ul>
-            {% else %}
-                <p>Aucun employé !</p>
-            {% endif %}
-        </li>
+        <li> Date de création : {{ entreprise.dateCreation | date('d/m/Y') }} </li>
+        {% if entreprise.employes | length > 0 %}
+        <li> {{ entreprise.employes | length }} {{ (entreprise.employes | length > 1) ? 'employés' : 'employé' }}</li>
+        {% else %}
+        <li>Aucun employé</li>
+        {% endif %}
     </ul>
+    <table class="table table-striped">
+        <thead>
+            <th>Employés</th>
+        </thead>
+        <tbody>
+            {% for employe in entreprise.employes %}
+            <tr>
+                <td> <a href="{{ path('show_employe', {'id': employe.id}) }}"> {{ employe }} </a> </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
 {% endblock %}

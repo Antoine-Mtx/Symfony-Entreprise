@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\EmployeRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\EmployeRepository;
 
 /**
  * @ORM\Entity(repositoryClass=EmployeRepository::class)
@@ -178,6 +179,32 @@ class Employe
 
     public function __toString()
     {
-        return $this->prenom." ".$this->nom ;
+        return $this->prenom." ".strtoupper($this->nom) ;
+    }
+
+    public function getAdresseComplete()
+    {
+        return $this->adresse." - ".strtoupper($this->cp)." ".strtoupper($this->ville);
+    }
+
+    public function getAnciennete()
+    {
+        $now = new DateTime();
+        $anciennete = date_diff($now, $this->dateEmbauche);
+        return $anciennete->y." ".(($anciennete->y > 1) ? 'années' : 'année')." et ".$anciennete->m." mois d'ancienneté";
+    }
+
+    public function getAge()
+    {
+        $now = new DateTime();
+        $age = date_diff($now, $this->dateNaissance);
+        return $age->y." ".(($age->y > 1) ? 'ans' : 'an');
+    }
+
+    public function getCollegues()
+    {
+        return $this->entreprise->getEmployes()->filter( function($employe) {
+            return $employe !== $this;
+        });
     }
 }
